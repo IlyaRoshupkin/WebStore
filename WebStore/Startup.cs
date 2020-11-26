@@ -19,6 +19,7 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -30,12 +31,24 @@ namespace WebStore
 
             app.UseRouting();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync(_Configuration["greetings"]);
-                });
+                endpoints.MapGet("/greetings", async ctx => 
+                await ctx.Response.WriteAsync(_Configuration["greetings"]));
+
+                endpoints.MapGet("/HelloWorld", async ctx =>
+                await ctx.Response.WriteAsync("HelloWorld!"));
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}/{var1}/{var2}");
+                //http://localhost:5000 -> controller == "Home" action == "Index"
+                //http://localhost:5000/Products -> controller == "Products" action == "Index"
+                //http://localhost:5000/Products/Page -> controller == "Products" action == "Index"
+                //http://localhost:5000/Products/Page -> controller == "Products" action == "Index" id = "5"
+
             });
         }
     }
