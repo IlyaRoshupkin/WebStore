@@ -43,7 +43,7 @@ namespace WebStore
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}/{var1}/{var2}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 //http://localhost:5000 -> controller == "Home" action == "Index"
                 //http://localhost:5000/Products -> controller == "Products" action == "Index"
                 //http://localhost:5000/Products/Page -> controller == "Products" action == "Index"
