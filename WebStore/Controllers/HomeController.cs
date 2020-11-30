@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Data;
 using WebStore.Models;
 
 namespace WebStore.Controllers
@@ -11,13 +12,6 @@ namespace WebStore.Controllers
     public class HomeController : Controller
     {
         private readonly IConfiguration _Configuration;
-        private static readonly List<Employee> __Employees = new()
-        {
-            new Employee() { Id = 1, LastName = "Ivanov", FirstName = "Ivan", Patronymic = "Ivanovich", Age = 28 },
-            new Employee() { Id = 2, LastName = "Petrov", FirstName = "Sergey", Patronymic = "Sergeevich", Age = 23 },
-            new Employee() { Id = 3, LastName = "Bodrova", FirstName = "Marina", Patronymic = "Antonovna", Age = 19 }
-        };
-
         public HomeController(IConfiguration Configuration) => _Configuration = Configuration;
 
         public IActionResult Index()
@@ -34,7 +28,7 @@ namespace WebStore.Controllers
 
         public IActionResult Employees()
         {
-            return View(__Employees );
+            return View(TestData.Employees);
         }
 
         public IActionResult Details(int? id)
@@ -44,7 +38,7 @@ namespace WebStore.Controllers
                 return NotFound();
             }
 
-            var employee = __Employees
+            var employee = TestData.Employees
                 .FirstOrDefault(e => e.Id == id);
             if (employee == null)
             {
