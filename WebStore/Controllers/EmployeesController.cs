@@ -21,5 +21,56 @@ namespace WebStore.Controllers
                 return View(employee);
             return NotFound();
         }
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var employee = __Employees.Find(e => e.Id == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            __Employees.Remove(employee);
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, [Bind("Id,LastName,FirstName,Patronymic,Age")] Employee employee)
+        {
+            if (id != employee.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                __Employees.Add(employee);
+                __Employees.Sort((e1, e2) => e1.Id.CompareTo(e2.Id));
+                return View(employee);
+            }
+            return NotFound();
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var employee = __Employees
+                .FirstOrDefault(e => e.Id == id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            __Employees.Remove(employee);
+            __Employees.Sort((e1, e2) => e1.Id.CompareTo(e2.Id));
+
+            return RedirectToAction("Index");
+        }
     }
 }
