@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Infrastucture.Conventions;
+using WebStore.Infrastucture.Interfaces;
 using WebStore.Infrastucture.Middleware;
+using WebStore.Infrastucture.Services;
 
 namespace WebStore
 {
@@ -21,10 +23,11 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
             //services.AddControllersWithViews(IServiceCollection services)
                 {
                 services
-                    .AddControllers(opt =>
+                    .AddControllersWithViews(opt =>
                     {
                         //opt.Conventions.Add(new WebStoreControllerConvention());
                     })
@@ -37,6 +40,7 @@ namespace WebStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
 
             app.UseRouting();

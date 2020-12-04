@@ -4,78 +4,101 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Data;
+using WebStore.Infrastucture.Interfaces;
 using WebStore.Models;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
     //[Route("Users")]
     public class EmployeesController : Controller
     {
-        private List<Employee> __Employees;
-        public EmployeesController() => __Employees = TestData.Employees;
+        private readonly IEmployeesData _Employees;
+        public EmployeesController(IEmployeesData Employees) => _Employees = Employees;
+
         //[Route("List")]
-        public IActionResult Index() => View(__Employees);
+        public IActionResult Index()
+        {
+            var employees = _Employees.Get();
+            return View(employees);
+        }
 
         //[Route("Info({id})")]
         public IActionResult Details(int id)
         {
-            var employee = TestData.Employees.FirstOrDefault(e => e.Id == id);
+            var employee = _Employees.Get(id);
             if (employee is not null)
                 return View(employee);
             return NotFound();
         }
-        //[Route("Edit({id})")]
+        #region Edit
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var employee = __Employees.Find(e => e.Id == id);
+            if (id is null)
+                return View(new EmployeesViewModel());
+            if (id < 0) return BadRequest();
+            var employee = _Employees.Get((int)id);
             if (employee == null)
             {
                 return NotFound();
             }
-            __Employees.Remove(employee);
-            return View(employee);
+            return View(new EmployeesViewModel
+            {
+                Id = employee.Id,
+                LastName = employee.LastName,
+                FirstName = employee.FirstName,
+                Patronymic = employee.Patronymic,
+                Age = employee.Age
+            });
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        //[Route("Edit({id})")]
-        public IActionResult Edit(int id, [Bind("Id,LastName,FirstName,Patronymic,Age")] Employee employee)
+        public IActionResult Edit(EmployeesViewModel Model)
         {
-            if (id != employee.Id)
+            if(Model is null)
+                throw new ArgumentNullException(nameof(Model));
+            var employee = new Employee
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                __Employees.Add(employee);
-                __Employees.Sort((e1, e2) => e1.Id.CompareTo(e2.Id));
-                return View(employee);
-            }
-            return NotFound();
-        }
-        //[Route("Delete({id})")]
-        public IActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = __Employees
-                .FirstOrDefault(e => e.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            __Employees.Remove(employee);
-            __Employees.Sort((e1, e2) => e1.Id.CompareTo(e2.Id));
-
+                Id = Model.Id,
+                LastName = Model.LastName,
+                FirstName = Model.FirstName,
+                Patronymic = Model.Patronymic,
+                Age = Model.Age
+            };
+            if (employee.Id == 0)
+                _Employees.Add(employee);
+            else
+                _Employees.Update(employee);
             return RedirectToAction("Index");
         }
+        #endregion
+        #region Delete
+        public IActionResult Delete(int id)
+        {
+            if (id <= 0) return BadRequest();
+            var employee = _Employees.Get(id);
+            if (employee is null) return NotFound();
+            return View(new EmployeesViewModel
+            {
+                Id = employee.Id,
+                LastName = employee.LastName,
+                FirstName = employee.FirstName,
+                Patronymic = employee.Patronymic,
+                Age = employee.Age
+            });
+        }
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _Employees.Delete(id);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Create
+        public IActionResult Create() => View("Edit", new EmployeesViewModel());
+        #endregion
     }
 }
+

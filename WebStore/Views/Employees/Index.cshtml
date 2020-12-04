@@ -5,6 +5,11 @@
 
 <div class="container">
     <h3>Employees</h3>
+
+    <div>
+        <a asp-action="Create" class="btn btn-primary">Create</a>
+    </div>
+    
     <table>
         <thead>
             <tr>
@@ -13,6 +18,9 @@
                 <th>FirstName</th>
                 <th>Patronymic</th>
                 <th>Age</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -28,12 +36,18 @@
                         <a asp-action="Edit" asp-route-id="@employee.Id">
                             <i class="fa fa-edit"></i>
                         </a>
+                        </td>
+                    <td>
                         <a asp-action="Details" asp-route-id="@employee.Id">
                             <i class="fa fa-info-circle"></i>
                         </a>
-                        <a asp-action="Delete" asp-route-id="@employee.Id">
-                            <i class="fa fa-eraser"></i>
-                        </a>
+                        </td>
+                    <td>
+                        <form asp-action="DeleteConfirmed" asp-route-id="@employee.Id">
+                            <button type="submit" class="btn btn btn-danger btn-sm">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             }
