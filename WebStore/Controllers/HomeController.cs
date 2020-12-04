@@ -16,11 +16,9 @@ namespace WebStore.Controllers
 
         public IActionResult Index()
         {
-            // Data processing
-            //return Content(_Configuration["ControllerActionText"]);
             return View();
         }
-
+        //public IActionResult Throw(string id) => throw new ApplicationException(id);
         public IActionResult SecondAction()
         {
             return Content("Second controller action");

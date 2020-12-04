@@ -8,12 +8,15 @@ using WebStore.Models;
 
 namespace WebStore.Controllers
 {
+    //[Route("Users")]
     public class EmployeesController : Controller
     {
         private List<Employee> __Employees;
         public EmployeesController() => __Employees = TestData.Employees;
+        //[Route("List")]
         public IActionResult Index() => View(__Employees);
 
+        //[Route("Info({id})")]
         public IActionResult Details(int id)
         {
             var employee = TestData.Employees.FirstOrDefault(e => e.Id == id);
@@ -21,6 +24,7 @@ namespace WebStore.Controllers
                 return View(employee);
             return NotFound();
         }
+        //[Route("Edit({id})")]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -38,6 +42,7 @@ namespace WebStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Route("Edit({id})")]
         public IActionResult Edit(int id, [Bind("Id,LastName,FirstName,Patronymic,Age")] Employee employee)
         {
             if (id != employee.Id)
@@ -53,7 +58,7 @@ namespace WebStore.Controllers
             }
             return NotFound();
         }
-
+        //[Route("Delete({id})")]
         public IActionResult Delete(int? id)
         {
             if (id == null)

@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Infrastucture.Conventions;
+using WebStore.Infrastucture.Middleware;
 
 namespace WebStore
 {
@@ -19,7 +21,15 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            //services.AddControllersWithViews(IServiceCollection services)
+                {
+                services
+                    .AddControllers(opt =>
+                    {
+                        //opt.Conventions.Add(new WebStoreControllerConvention());
+                    })
+                    .AddRazorRuntimeCompilation();
+                }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -30,9 +40,9 @@ namespace WebStore
             }
 
             app.UseRouting();
-
             app.UseStaticFiles();
-
+            //app.UseMiddleware<TestMiddleware>();
+            app.UseWelcomePage("/welcome");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/greetings", async ctx => 
