@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +23,13 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddTransient<IService, ServiceImplementation>();
+            //services.AddSingleton<IService, ServiceImplementation>();
+            //services.AddScoped<IService, ServiceImplementation>();
+
             services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
+            //services.AddTransient<IEmployeesData>(service => new InMemoryEmployeesData());
+            services.AddTransient<IProductData, InMemoryProductData>();
             //services.AddControllersWithViews(IServiceCollection services)
                 {
                 services
@@ -35,8 +41,15 @@ namespace WebStore
                 }
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider services*/)
         {
+            //var employees = services.GetService<IEmployeesData>();
+
+            //using(var scope = services.CreateScope())
+            //{
+            //    var service = scope.ServiceProvider.GetRequiredService<IEmployeesData>();
+            //}
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
