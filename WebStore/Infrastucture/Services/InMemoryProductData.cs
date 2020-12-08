@@ -21,6 +21,7 @@ namespace WebStore.Infrastucture.Services
                 query = query.Where(product => product.SectionId == section_id);
             if (Filter?.BrandId != null)
                 query = query.Where(product => product.BrandId == Filter.BrandId);
+            return query;
         }
 
         public IEnumerable<Section> GetSections() => TestData.Sections;
