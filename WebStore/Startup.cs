@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,10 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.DAL.Context;
+using WebStore.Data;
 using WebStore.Infrastucture.Conventions;
 using WebStore.Infrastucture.Interfaces;
 using WebStore.Infrastucture.Middleware;
 using WebStore.Infrastucture.Services;
+using WebStore.Infrastucture.Services.InSQL;
 
 namespace WebStore
 {
@@ -23,15 +27,20 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(_Configuration.GetConnectionString("Default")));
+            services.AddTransient<WebStoreDbInitializer>();
             //services.AddTransient<IService, ServiceImplementation>();
             //services.AddSingleton<IService, ServiceImplementation>();
             //services.AddScoped<IService, ServiceImplementation>();
 
             services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
             //services.AddTransient<IEmployeesData>(service => new InMemoryEmployeesData());
-            services.AddTransient<IProductData, InMemoryProductData>();
+            
+            //services.AddTransient<IProductData, InMemoryProductData>();
+            services.AddTransient<IProductData, SQLProductData>();
+
             //services.AddControllersWithViews(IServiceCollection services)
-                {
+            {
                 services
                     .AddControllersWithViews(opt =>
                     {
@@ -41,14 +50,9 @@ namespace WebStore
                 }
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider services*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db)
         {
-            //var employees = services.GetService<IEmployeesData>();
-
-            //using(var scope = services.CreateScope())
-            //{
-            //    var service = scope.ServiceProvider.GetRequiredService<IEmployeesData>();
-            //}
+            db.Initialize();
 
             if (env.IsDevelopment())
             {
