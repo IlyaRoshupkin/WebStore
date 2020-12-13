@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
+using WebStore.DAL.Migrations;
 using WebStore.Data;
+using WebStore.Domain.Entityes.Identity;
 using WebStore.Infrastucture.Conventions;
 using WebStore.Infrastucture.Interfaces;
 using WebStore.Infrastucture.Middleware;
@@ -32,6 +35,41 @@ namespace WebStore
             //services.AddTransient<IService, ServiceImplementation>();
             //services.AddSingleton<IService, ServiceImplementation>();
             //services.AddScoped<IService, ServiceImplementation>();
+
+            services.AddIdentity<User, Identity>()
+                .AddEntityFrameworkStores<WebStoreDB>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(opt =>
+            {
+#if DEBUG
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredUniqueChars = 3;
+#endif
+                opt.User.RequireUniqueEmail = false;
+                opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTVWXYZ1234567890";
+                
+                opt.Lockout.AllowedForNewUsers = true;
+                opt.Lockout.MaxFailedAccessAttempts = 10;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            });
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.Name = "WebStore.GB";
+                opt.Cookie.HttpOnly = true;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(10);
+
+                opt.LoginPath = "/Account/Login";
+                opt.LogoutPath = "/Account/Logout";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
+
+                opt.SlidingExpiration = true;
+
+            })
 
             services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
             //services.AddTransient<IEmployeesData>(service => new InMemoryEmployeesData());
@@ -59,9 +97,11 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
-
-            app.UseRouting();
             app.UseStaticFiles();
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             //app.UseMiddleware<TestMiddleware>();
             app.UseWelcomePage("/welcome");
             app.UseEndpoints(endpoints =>
