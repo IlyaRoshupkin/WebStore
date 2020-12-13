@@ -69,7 +69,7 @@ namespace WebStore
 
                 opt.SlidingExpiration = true;
 
-            })
+            });
 
             services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
             //services.AddTransient<IEmployeesData>(service => new InMemoryEmployeesData());
