@@ -36,7 +36,7 @@ namespace WebStore
             //services.AddSingleton<IService, ServiceImplementation>();
             //services.AddScoped<IService, ServiceImplementation>();
 
-            services.AddIdentity<User, Identity>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
 
