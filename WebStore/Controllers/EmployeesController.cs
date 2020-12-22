@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Data;
+using WebStore.Domain.Entityes.Identity;
 using WebStore.Infrastucture.Interfaces;
 using WebStore.Models;
 using WebStore.ViewModels;
@@ -34,6 +35,7 @@ namespace WebStore.Controllers
             return NotFound();
         }
         #region Edit
+        [Authorize(Roles = Role.Administrator)]
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -56,6 +58,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult Edit(EmployeesViewModel Model)
         {
             if (Model.Age == 16)
@@ -83,7 +86,9 @@ namespace WebStore.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
         #region Delete
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult Delete(int id)
         {
             if (id <= 0) return BadRequest();
@@ -98,7 +103,9 @@ namespace WebStore.Controllers
                 Age = employee.Age
             });
         }
+
         [HttpPost]
+        [Authorize(Roles = Role.Administrator)]
         public IActionResult DeleteConfirmed(int id)
         {
             _Employees.Delete(id);
@@ -107,6 +114,8 @@ namespace WebStore.Controllers
         #endregion
 
         #region Create
+        [Authorize(Roles = Role.Administrator)]
+
         public IActionResult Create() => View("Edit", new EmployeesViewModel());
         #endregion
     }
