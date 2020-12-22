@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,17 +8,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entityes.Identity;
 
 namespace WebStore.Data
 {
     public class WebStoreDbInitializer
     {
         private readonly WebStoreDB _db;
+        private readonly RoleManager<Role> _RoleManager;
+        private readonly UserManager<User> _UserManager;
         private readonly ILogger<WebStoreDbInitializer> _Logger;
 
-        public WebStoreDbInitializer(WebStoreDB db,ILogger<WebStoreDbInitializer> Logger)
+        public WebStoreDbInitializer(WebStoreDB db, 
+            UserManager<User> UserManager,
+            RoleManager<Role> RoleManager,
+            ILogger<WebStoreDbInitializer> Logger)
         {
             _db = db;
+            _RoleManager = RoleManager;
+            _UserManager = UserManager;
             _Logger = Logger; 
         }
         public void Initialize()
@@ -40,7 +49,17 @@ namespace WebStore.Data
             }
             catch(Exception e)
             {
-                _Logger.LogError(e, "Error during initialisation DB by shop`s data");
+                _Logger.LogError(e, "Error during initialisation DB by products shop data.");
+                throw;
+            }
+
+            try
+            {
+                InitializeIdentityAsync().Wait();
+            }
+            catch(Exception e)
+            {
+                _Logger.LogError(e, "Error during initialisation Identity system DB");
                 throw;
             }
         }
@@ -88,6 +107,35 @@ namespace WebStore.Data
                 _db.Database.CommitTransaction();
             }
             _Logger.LogInformation("Addition of source data has been completed successfully for {0} ms.",timer.ElapsedMilliseconds);
+        }
+
+        private async Task InitializeIdentityAsync()
+        {
+            async Task CheckRole(string RoleName)
+            {
+                if (!await _RoleManager.RoleExistsAsync(RoleName))
+                    await _RoleManager.CreateAsync(new Role { Name = RoleName });
+            }
+
+            await CheckRole(Role.Administrator);
+            await CheckRole(Role.User);
+
+            if(await _UserManager.FindByNameAsync(User.Administrator) is null)
+            {
+                var admin = new User
+                {
+                    UserName = User.Administrator
+                };
+                var creation_result = await _UserManager.CreateAsync(admin, User.DefaultAdminPassword);
+                if (creation_result.Succeeded)
+                    await _UserManager.AddToRoleAsync(admin, Role.Administrator);
+                else
+                {
+                    var errors = creation_result.Errors.Select(e => e.Description);
+                    throw new InvalidOperationException($"The error during creation of administrator`s account " +
+                        $"{string.Join(",", errors)}");
+                }
+            }
         }
     }
 }

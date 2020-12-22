@@ -9,9 +9,14 @@ using WebStore.Infrastucture.Interfaces;
 
 namespace WebStore.Infrastucture.Services
 {
+    [Obsolete("This class is obsolete because there is no need to place data in a memory. Use the class SqlProductData", true)]
     public class InMemoryProductData : IProductData
     {
+        public Brand GetBrandById(int id) => throw new NotSupportedException();
+
         public IEnumerable<Brand> GetBrands() => TestData.Brands;
+
+        public IEnumerable<Product> GetProductById(int id) => throw new NotSupportedException ();
 
         public IEnumerable<Product> GetProducts(ProductFilter Filter = null)
         {
@@ -24,6 +29,13 @@ namespace WebStore.Infrastucture.Services
             return query;
         }
 
+        public Section GetSectionById(int id) => throw new NotSupportedException();
+
         public IEnumerable<Section> GetSections() => TestData.Sections;
+
+        Product IProductData.GetProductById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -12,9 +12,11 @@
                 <div class="login-form">
                     <!--login form-->
                     <h2>Login to your account</h2>
-                    <form asp-action="Login" asp-antiforgery="true">
+                    <form asp-action="Login" asp-antiforgery="true"> @*asp-route-ReturnedUrl="@Model.ReturnUrl"*@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         
+                        @Html.HiddenFor(e => e.ReturnUrl);
+
                         <input asp-for="UserName" placeholder="Name" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                         

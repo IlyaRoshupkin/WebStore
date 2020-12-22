@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain;
 using WebStore.Infrastucture.Interfaces;
+using WebStore.Infrastucture.Mapping;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -12,7 +13,9 @@ namespace WebStore.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _ProductData;
+
         public CatalogController(IProductData ProductData) { _ProductData = ProductData; }
+
         public IActionResult Shop(int? BrandId, int? SectionId)
         {
             var filter = new ProductFilter
@@ -26,15 +29,19 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
                 Products = products
-                .OrderBy(p => p.Order)
-                .Select(p => new ProductViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    ImageUrl = p.ImageUrl,
-                })
-            }); ;
+                .OrderBy(p => p.Order).ToView()
+            });
+            ;
+        }
+
+        public IActionResult Details(int id)
+        {
+            var product = _ProductData.GetProductById(id);
+
+            if (product is null)
+                return NotFound();
+
+            return View(product.ToView() );
         }
     }
 }
