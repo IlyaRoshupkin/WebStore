@@ -115,7 +115,7 @@ namespace WebStore.Infrastucture.Services.InCookies
             _HttpContextAccessor = HttpContextAccessor;
 
             var user = HttpContextAccessor.HttpContext!.User;
-            var user_name = user.Identity!.IsAuthenticated ? $"({user.Identity.Name})" : null;
+            var user_name = user.Identity!.IsAuthenticated ? $"(-{user.Identity.Name})" : null;
 
             _CartName = $"WebStore.Cart{user_name}";
         }

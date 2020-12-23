@@ -18,6 +18,7 @@ using WebStore.Infrastucture.Conventions;
 using WebStore.Infrastucture.Interfaces;
 using WebStore.Infrastucture.Middleware;
 using WebStore.Infrastucture.Services;
+using WebStore.Infrastucture.Services.InCookies;
 using WebStore.Infrastucture.Services.InSQL;
 
 namespace WebStore
@@ -76,6 +77,7 @@ namespace WebStore
             
             //services.AddTransient<IProductData, InMemoryProductData>();
             services.AddTransient<IProductData, SQLProductData>();
+            services.AddScoped<ICartService, InCookiesCartService>();
 
             //services.AddControllersWithViews(IServiceCollection services)
             {
