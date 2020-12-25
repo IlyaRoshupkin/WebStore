@@ -9,9 +9,8 @@ using WebStore.Domain.Entityes.Identity;
 namespace WebStore.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize(Roles = Role.Administrator)]
-    public class HomeController : Controller
+    public class UserController : Controller
     {
-
         public IActionResult Index()
         {
             return View();

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using WebStore.Domain.Entityes;
 using WebStore.Domain.Entityes.Identity;
+using WebStore.Domain.Entityes.Orders;
 
 namespace WebStore.DAL.Context
 {
@@ -15,6 +16,10 @@ namespace WebStore.DAL.Context
         public DbSet<Brand> Brands { get; set; }
 
         public DbSet<Section> Sections { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        //public DbSet<OrderItem> OrderItems { get; set; }
 
         public WebStoreDB(DbContextOptions<WebStoreDB> options) : base(options) { }
         
