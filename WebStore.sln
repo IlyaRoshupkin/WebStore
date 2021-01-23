@@ -15,9 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DAL", "Services\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore", "UI\WebStore\WebStore.csproj", "{2C00FE78-878C-4DE6-8727-F85F0F08CEA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{8B5BC238-5226-4F9F-9648-74F1A8DD603D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{8B5BC238-5226-4F9F-9648-74F1A8DD603D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Interfaces", "Services\WebStore.Interfaces\WebStore.Interfaces.csproj", "{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Interfaces", "Services\WebStore.Interfaces\WebStore.Interfaces.csproj", "{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{03F4EFB9-BF30-418C-B4DD-E8365F9EE6D9} = {03F4EFB9-BF30-418C-B4DD-E8365F9EE6D9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
