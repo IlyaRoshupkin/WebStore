@@ -3,9 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-<<<<<<< Updated upstream
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore", "WebStore\WebStore.csproj", "{BE0A4B34-F1DC-4CEE-92A3-C31E325BB040}"
-=======
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{ED0CE3BC-DA5E-4C39-8D05-66ABB836716C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{F99ACC49-51B9-48E7-A5BC-A832D43525A1}"
@@ -17,7 +14,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DAL", "Services\WebStore.DAL\WebStore.DAL.csproj", "{BB5CBA7A-22E0-4744-9902-F401CD79A9D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore", "UI\WebStore\WebStore.csproj", "{2C00FE78-878C-4DE6-8727-F85F0F08CEA0}"
->>>>>>> Stashed changes
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{8B5BC238-5226-4F9F-9648-74F1A8DD603D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Interfaces", "Services\WebStore.Interfaces\WebStore.Interfaces.csproj", "{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,12 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-<<<<<<< Updated upstream
-		{BE0A4B34-F1DC-4CEE-92A3-C31E325BB040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE0A4B34-F1DC-4CEE-92A3-C31E325BB040}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE0A4B34-F1DC-4CEE-92A3-C31E325BB040}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE0A4B34-F1DC-4CEE-92A3-C31E325BB040}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
 		{03F4EFB9-BF30-418C-B4DD-E8365F9EE6D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03F4EFB9-BF30-418C-B4DD-E8365F9EE6D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03F4EFB9-BF30-418C-B4DD-E8365F9EE6D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,7 +37,14 @@ Global
 		{2C00FE78-878C-4DE6-8727-F85F0F08CEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C00FE78-878C-4DE6-8727-F85F0F08CEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C00FE78-878C-4DE6-8727-F85F0F08CEA0}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> Stashed changes
+		{8B5BC238-5226-4F9F-9648-74F1A8DD603D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B5BC238-5226-4F9F-9648-74F1A8DD603D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B5BC238-5226-4F9F-9648-74F1A8DD603D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B5BC238-5226-4F9F-9648-74F1A8DD603D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +53,8 @@ Global
 		{03F4EFB9-BF30-418C-B4DD-E8365F9EE6D9} = {70DC2D12-DED5-409C-AB0E-7F9155E54FD4}
 		{BB5CBA7A-22E0-4744-9902-F401CD79A9D8} = {F99ACC49-51B9-48E7-A5BC-A832D43525A1}
 		{2C00FE78-878C-4DE6-8727-F85F0F08CEA0} = {ED0CE3BC-DA5E-4C39-8D05-66ABB836716C}
+		{8B5BC238-5226-4F9F-9648-74F1A8DD603D} = {F99ACC49-51B9-48E7-A5BC-A832D43525A1}
+		{D55DB5C9-A6F6-4A75-B5A5-D4D2FD846F2D} = {F99ACC49-51B9-48E7-A5BC-A832D43525A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {46EB41B1-EDB9-4CF4-944B-789B8E104404}
