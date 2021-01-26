@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.ServiceHosting.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // http://localhost:5001/api/values
     [ApiController]
     public class ValuesController : ControllerBase
     {
         private static readonly List<string> __Values = Enumerable
-            .Range(1, 10)
-            .Select(i => $"Value{i:00}")
-            .ToList();
+           .Range(1, 10)
+           .Select(i => $"Value{i:00}")
+           .ToList();
 
         [HttpGet] // http://localhost:5001/api/values
         public IEnumerable<string> Get() => __Values;
@@ -23,13 +20,16 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpGet("{id}")] // http://localhost:5001/api/values/5
         public ActionResult<string> Get(int id)
         {
-            if (id < 0) return BadRequest();
-            if (id >= __Values.Count) return NotFound();
+            if (id < 0)
+                return BadRequest();
+            if (id >= __Values.Count)
+                return NotFound();
+
             return __Values[id];
         }
 
         [HttpPost]
-        [HttpGet("add")] // http://localhost:5001/api/values/5
+        [HttpPost("add")] //http://localhost:5001/api/values/add
         public ActionResult Post([FromBody] string value)
         {
             __Values.Add(value);
@@ -37,11 +37,13 @@ namespace WebStore.ServiceHosting.Controllers
         }
 
         [HttpPut("{id}")]
-        [HttpPut("edit/{id}")] // http://localhost:5001/api/values/edit/5
+        [HttpPut("edit/{id}")] //http://localhost:5001/api/values/edit/5
         public ActionResult Put(int id, [FromBody] string value)
         {
-            if (id < 0) return BadRequest();
-            if (id >= __Values.Count) return NotFound();
+            if (id < 0)
+                return BadRequest();
+            if (id >= __Values.Count)
+                return NotFound();
 
             __Values[id] = value;
 
@@ -51,8 +53,10 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            if (id < 0) return BadRequest();
-            if (id >= __Values.Count) return NotFound();
+            if (id < 0)
+                return BadRequest();
+            if (id >= __Values.Count)
+                return NotFound();
 
             __Values.RemoveAt(id);
 

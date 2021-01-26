@@ -1,20 +1,26 @@
-﻿x   using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net.Http;
-using System.Text;
+using System.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
 
 namespace WebStore.Clients.Base
 {
     public abstract class BaseClient
     {
         protected string Address { get; }
-
         protected HttpClient Http { get; }
 
-        protected BaseClient(HttpClient Client, string ServiceAddress)
+        protected BaseClient(IConfiguration Configuration, string ServiceAddress)
         {
-            Http = Client;
             Address = ServiceAddress;
+            Http = new HttpClient
+            {
+                BaseAddress = new Uri(Configuration["WebApiURL"]),
+                DefaultRequestHeaders =
+                {
+                    Accept = { new MediaTypeWithQualityHeaderValue("application/json") }
+                }
+            };
         }
     }
 }

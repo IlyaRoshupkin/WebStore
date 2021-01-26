@@ -1,18 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStore.ViewModels
+namespace WebStore.Domain.ViewModels
 {
     public class UserOrderViewModel
     {
-        public UserOrderViewModel(int id, string name, string phone, string address, decimal total_sum)
-        {
-            Id = id;
-            Name = name;
-            Phone = phone;
-            Address = address;
-            TotalSum = total_sum;
-        }
-
         public int Id { get; set; }
 
         [Required]

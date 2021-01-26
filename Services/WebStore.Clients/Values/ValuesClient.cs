@@ -3,28 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
+using Microsoft.Extensions.Configuration;
 using WebStore.Clients.Base;
-using WebStore.Clients.TestAPI;
+using WebStore.Interfaces.TestAPI;
 
 namespace WebStore.Clients.Values
 {
     public class ValuesClient : BaseClient, IValuesServices
     {
-        public ValuesClient(HttpClient Client) : base(Client, "api/values") { }
-
-        public HttpStatusCode Delete(int id)
-        {
-            var response = Http.DeleteAsync($"{Address}/{id}").Result;
-            return response.StatusCode;
-        }
+        public ValuesClient(IConfiguration Configuration) : base(Configuration, "api/values") { }
 
         public IEnumerable<string> Get()
         {
             var response = Http.GetAsync(Address).Result;
             if (response.IsSuccessStatusCode)
-                return response.Content.ReadAsAsync <IEnumerable<string>>().Result;
-            return Enumerable.Empty<string>();  
+                return response.Content.ReadAsAsync<IEnumerable<string>>().Result;
+            return Enumerable.Empty<string>();
         }
 
         public string Get(int id)
@@ -45,6 +39,12 @@ namespace WebStore.Clients.Values
         {
             var response = Http.PostAsJsonAsync($"{Address}/{id}", value).Result;
             return response.EnsureSuccessStatusCode().StatusCode;
+        }
+
+        public HttpStatusCode Delete(int id)
+        {
+            var response = Http.DeleteAsync($"{Address}/{id}").Result;
+            return response.StatusCode;
         }
     }
 }
